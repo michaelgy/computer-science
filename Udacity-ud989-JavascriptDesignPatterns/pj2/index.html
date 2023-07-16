@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cat Clicker</title>
+        <style>
+            #main-container {
+                display: flexbox;
+                max-width: 100%;
+                max-height: auto;
+            }
+            img {
+                max-width: 100%;
+                max-height: auto;
+            }
+            .heading {
+                display: inline;
+                color: blue;
+            }
+            .div-container {
+                max-width: auto;
+                max-height: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Image click counter</h1>
+        <div id="main-container">
+        </div>
+        <script>
+            const images = [
+                {src: "./public/images/catImage.jpg", title: "cat1"},
+                {src: "./public/images/catImage.jpg", title: "cat2"}
+            ];
+
+            const counterFactory = (src, title) => {
+                const counterTag = document.createElement("h2");
+                counterTag.className = "heading";
+                counterTag.innerText = `${title} - Counter:`;
+
+                const counter = document.createElement("h2");
+                counter.className = "heading";
+                counter.innerText = "0";
+
+                let count = 0;
+
+                const imgContainer = document.createElement("img");
+                imgContainer.src = src
+                imgContainer.addEventListener('click', function(){
+                    count ++;
+                    counter.innerText = count
+                }, false);
+
+                const clickCounterContainer = document.createElement("div");
+                clickCounterContainer.append(counterTag);
+                clickCounterContainer.append(counter);
+                clickCounterContainer.append(imgContainer);
+
+
+                const mainContainer = document.getElementById("main-container");
+                mainContainer.append(clickCounterContainer);
+            };
+
+            images.forEach(imgElement => {
+                console.log(imgElement)
+                counterFactory(imgElement.src, imgElement.title)
+            })
+        </script>
+    </body>
+</html>

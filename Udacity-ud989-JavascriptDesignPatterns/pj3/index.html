@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cat Clicker</title>
+        <style>
+            #main-container {
+                display: flex;
+                max-width: 100%;
+                max-height: auto;
+            }
+            img {
+                max-width: 100%;
+                max-height: auto;
+            }
+            .heading {
+                color: blue;
+            }
+            .div-container {
+                max-width: auto;
+                max-height: auto;
+            }
+            #list-container {
+                flex-grow: 2;
+            }
+            #display-container {
+                flex-grow: 3;
+                padding: 20px;
+            }
+            li {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Image click counter</h1>
+        <div id="main-container">
+            <ul id="list-container">
+
+            </ul>
+            <div id="display-container">
+                <img id="img-current" src=""/>
+                <h2 class="heading" id="img-title">Title:</h2>
+                <h2 class="heading" id="img-clicks">Clicks:</h2>
+            </div>
+        </div>
+        <script>
+            const images = [
+                {src: "./public/images/catImage1.jpg", title: "cat1"},
+                {src: "./public/images/catImage2.jpg", title: "cat2"},
+                {src: "./public/images/catImage3.jpg", title: "cat3"},
+                {src: "./public/images/catImage4.jpg", title: "cat4"},
+                {src: "./public/images/catImage5.jpg", title: "cat5"}
+            ];
+
+            const listFactory = (elements, index) => {
+                const elem = document.createElement("li");
+                elem.innerText = elements[index].title
+                elem.addEventListener("click", ()=>{
+                    const imgContainer = document.getElementById("img-current");
+                    const imgContainerNoEvents = imgContainer.cloneNode(true); // clone without events
+                    imgContainer.parentNode.replaceChild(imgContainerNoEvents, imgContainer); // replace with cleaner version
+                    imgContainerNoEvents.src = elements[index].src;
+
+                    const titleContainer = document.getElementById("img-title");
+                    titleContainer.innerText = `Title: ${elements[index].title}`;
+
+                    const clicksContainer = document.getElementById("img-clicks");
+                    clicksContainer.innerText = `Clicks: ${elements[index].clicks}`;
+
+                    imgContainerNoEvents.addEventListener("click", ()=>{
+                        elements[index].clicks ++;
+                        clicksContainer.innerText = `Clicks: ${elements[index].clicks}`;
+                    })
+                })
+
+                const listContainer = document.getElementById("list-container");
+                listContainer.append(elem);
+            }
+
+            images.forEach((imgElement, index) => {
+                imgElement.clicks = 0;
+                listFactory(images, index);
+            });
+
+            console.log(images)
+
+        </script>
+    </body>
+</html>
